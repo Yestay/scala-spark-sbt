@@ -5,7 +5,7 @@ import org.json4s.DefaultFormats
 
 object JsonReader extends App {
 
-  case class Wine(id: Int ,country:String,points:Int, title:String, variety:String,winery:String)
+  case class Wine(id: Int ,country:String,points:Int, price: Double, title:String, variety:String,winery:String)
 
 
     implicit val formats = DefaultFormats
@@ -16,7 +16,7 @@ object JsonReader extends App {
 
     val sc = spark.sparkContext
     sc.setLogLevel("ERROR")
-    val lines = sc.textFile("C:\\Users\\Yestay\\Desktop\\Otus\\winemag-data-130k-v2.json")//args(0))
+    val lines = sc.textFile(args(0))
     val j_lines = lines.map(item => parse(item).extract[Wine])
     j_lines.foreach(i => println(i))
 
